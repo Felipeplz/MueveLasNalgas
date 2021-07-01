@@ -1,0 +1,61 @@
+{% extends 'base_con_barra.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block deportivas %} active{% endblock %}
+
+{% block principal %}
+<form class="col-12 col-md-3 offset-md-9 my-4 d-inline-flex" action="../../deportivas">
+    <input class="form-control-sm form-control" type="search" name="buscar" id="buscar" placeholder="Buscar zona deportiva..">
+    <button class="btn btn-light btn-sm ml-2" type="submit">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
+<div class="container h-100 mb-3">
+    <div id="mapContainer" class="h-100">
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css">
+<style>
+html, body {
+    height:calc(100% - 84px);
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+<script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+<script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+<script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+<!-- <script src="https://js.api.here.com/v3/3.1/mapsjs-clustering.js"></script> -->
+<script src="{% static 'js/map.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $("#buscar").val("{{filtro}}")
+    });
+    {% for tipo in tipos %}
+    var {{tipo.icono}} = new H.map.DomIcon('<svg style="width: 32px; height: 32px; overflow:visible !important"><use style="x: -50%; y: -50%" xlink:href="../..{% static 'svg/solid.svg' %}#{{tipo.icono}}"></use></svg>');
+    {% endfor %}
+    var group = new H.map.Group();
+
+    map.addObject(group);
+
+    group.addEventListener('tap', function (evt) {
+        var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+        content: evt.target.getData()
+        });
+        ui.addBubble(bubble);
+    }, false);
+    {% for zona in zonas %}
+    addMarkerToGroup(group, {lat: {{zona.lat|unlocalize}}, lng: {{zona.lng|unlocalize}}},
+    '<div><h3>{{zona.nombre}}</h3></div>' +
+    '<div>{{zona.descripcion}}</div>' +
+    '<div><a href="../../deportivas/?buscar={{zona.tipo.nombre}}">{{zona.tipo}}</a></div>',
+    {icon: {{zona.tipo.icono}}});
+    {% endfor %}
+</script>
+{% endblock %}

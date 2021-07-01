@@ -10,9 +10,8 @@ def comunidadesView(request):
     noticias = Noticia.objects.all().order_by('-id')[:5]
     comunidades = Comunidad.objects.all()
     if "buscar" in request.GET:
-        comunidades = comunidades.filter(nombre__contains=buscar)
-        comunidades.union(comunidades.filter(deporte__nombre__contains=buscar))
-    top = Comunidad.objects.annotate(num_miebros=Count('miembros')).order_by('num_miebros')[:3]
+        comunidades = comunidades.filter(nombre__icontains=request.GET["buscar"]) | comunidades.filter(deporte__nombre__icontains=request.GET["buscar"])
+    top = Comunidad.objects.annotate(popularidad=Count('miembros')+Count('favoritos')).order_by('-popularidad')[:3]
     return render(request, 'comunidades.html', context={'noticias':noticias,
                                                         'comunidades':comunidades,
                                                         'top':top})

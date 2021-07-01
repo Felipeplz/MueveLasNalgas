@@ -47,12 +47,12 @@
         <div class="col-md-4 text-white overflow-auto pt-3 text-center" id="comunidades">
             <h3 class="text-center">Comunidades</h3>
             <hr>
-            <div class="col-12 mb-4 d-inline-flex">
+            <form class="col-12 mb-4 d-inline-flex">
                 <input class="form-control-sm form-control" type="search" placeholder="Buscar comunidad..">
                 <button class="btn btn-light btn-sm ml-2" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
-            </div>
+            </form>
             {% for comunidad in comunidades %}
             <div class="mb-4 comunidad-banner">
                 <a class="text-white" href="../../comunidades/{{comunidad.id}}"><h6>{{comunidad.nombre}}</h6></a>
@@ -116,7 +116,7 @@
                     <img src="{{comunidad.deporte.img.url}}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">{{comunidad.nombre}}</h5>
-                        <p class="card-text">Comunidad popular de <b>{{comunidad.deporte}}</b> con <b>{{comunidad.miembros.count}} miembro{% if comunidad.miembros.count != 1 %}s{% endif %}</b> en total.</p>
+                        <p class="card-text">Comunidad popular de <b>{{comunidad.deporte}}</b> con <b>{{comunidad.miembros.count}} miembro{% if comunidad.miembros.count != 1 %}s{% endif %}</b> y ha sido marcado como favorito <b>{{comunidad.favoritos.count}} {% if comunidad.favoritos.count != 1 %}vez{% else %}veces{% endif %}</b> en total.</p>
                     </div>
                 </a>
                 {% empty %}
@@ -125,37 +125,6 @@
             </div>
         </div>
     </div>
-</div>
-<div class="footer-dark">
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-md-3 item">
-                    <h3>Creadores</h3>
-                    <ul>
-                        <li><a href="https://www.instagram.com/waton_basti/">Bastian Galvez</a></li>
-                        <li><a href="https://www.instagram.com/alanrogers.drums.vx/">Alan Pavez</a></li>
-                        <li><a href="https://www.instagram.com/ascua.vida.mia/">Felipe Zavalla</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-6 col-md-3 item text">
-                    <h3>Proposito</h3>
-                    <p>Unete y se parte de las comunidades que entrega MLN, comparte otros usuarios y expande tu conocimiento sobre los de tú interes.</p>
-                </div>
-                <div class="col-md-6 item text">
-                    <h3>Proposito</h3>
-                    <p><br>MLN tiene como proposito mas importante el incentivar y aumentar la actividad fisica del país entregando herramientas para los usuarios que faciliten la realizacion de actividades deportivas, para mejorar la vida de estos intentando
-                        llevarlos hacia una vida activa y sana.<br><br></p>
-                </div>
-                <div class="col item social">
-                    <a href="#"><i class="fab fa-facebook-square"></i></a>
-                    <a href="#"><i class="fab fa-twitter-square"></i></a>
-                    <a href="#"><i class="fab fa-instagram-square"></i></a>
-                </div>
-            </div>
-            <p class="copyright">Mueve Las Nalgas © 2021</p>
-        </div>
-    </footer>
 </div>
 {% endblock %}
 

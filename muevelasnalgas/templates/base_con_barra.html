@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{% static 'css/Login-Form-Dark.css' %}">
     <link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block styles %}
+    {% endblock %}
 </head>
 
 <body>
@@ -45,9 +47,46 @@
     {% block principal %}
     {% endblock %}
 
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Creadores</h3>
+                        <ul>
+                            <li><a href="https://www.instagram.com/waton_basti/">Bastian Galvez</a></li>
+                            <li><a href="https://www.instagram.com/alanrogers.drums.vx/">Alan Pavez</a></li>
+                            <li><a href="https://www.instagram.com/ascua.vida.mia/">Felipe Zavalla</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item text">
+                        <h3>Proposito</h3>
+                        <p>Unete y se parte de las comunidades que entrega MLN, comparte otros usuarios y expande tu conocimiento sobre los de tú interes.</p>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>Proposito</h3>
+                        <p><br>MLN tiene como proposito mas importante el incentivar y aumentar la actividad fisica del país entregando herramientas para los usuarios que faciliten la realizacion de actividades deportivas, para mejorar la vida de estos intentando
+                            llevarlos hacia una vida activa y sana.<br><br></p>
+                    </div>
+                    <div class="col item social">
+                        <a href="#"><i class="fab fa-facebook-square"></i></a>
+                        <a href="#"><i class="fab fa-twitter-square"></i></a>
+                        <a href="#"><i class="fab fa-instagram-square"></i></a>
+                    </div>
+                </div>
+                <p class="copyright">Mueve Las Nalgas © 2021</p>
+            </div>
+        </footer>
+    </div>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>

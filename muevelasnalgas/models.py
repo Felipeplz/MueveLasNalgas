@@ -19,11 +19,15 @@ class Comunidad(models.Model):
 
 class TipoZona(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-    icono = models.ImageField()
+    icono = models.CharField(max_length=1000)
+
+    def __str__(self) -> str:
+        return self.nombre
 
 class Zona(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
+    nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=150)
     tipo = models.ForeignKey('TipoZona', on_delete=models.CASCADE)
 
