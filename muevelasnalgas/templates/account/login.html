@@ -1,0 +1,31 @@
+{% extends 'base_limpia.html' %}
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block principal %}
+    <div class="login-dark" style="background-image: url(&quot;{% static 'img/fondo-base.jpg' %}&quot;);background-size: cover;background-position: center center;background-repeat: no-repeat;">
+        <form class="border rounded border-dark shadow-lg" method="post" style="background-color: rgb(29,37,45);margin: 0px;margin-bottom: 0px;margin-top: -25px;" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <h2 class="sr-only">Formulario de Login</h2>
+            <div class="illustration"><img src="{% static 'img/muevelasnalgas.png' %}" style="margin: 0px;margin-top: 1px;margin-left: 3px;height: 100%;max-height: 150px;width: auto;"></div>
+            <div class="form-group"><input class="bg-white border rounded form-control text-dark" type="text" autofocus="" placeholder="Usuario" name="login" required="" id="id_login"></div>
+            <div class="form-group"><input class="bg-white border rounded form-control text-dark mb-4" type="password" name="password" placeholder="Contraseña" required="" id="id_password"></div>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <div class="form-group">
+              <button class="btn btn-success btn-block text-white border rounded p-2 mb-3" type="submit">Iniciar sesión</button>
+              <label>¿No tienes cuenta?&nbsp;&nbsp;</label>
+              <a class="text-info" href="{{ signup_url }}">Regístrate</a>
+              <a class="btn btn-primary btn-block text-white border rounded" type="submit" href="{% provider_login_url 'google' %}">Iniciar con Google&nbsp;<i class="fa fa-google"></i></a>
+            </div>
+            <a class="text-info forgot" href="{% url 'account_reset_password' %}">¿Olvidaste tu usuario o contraseña?</a>
+          </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+	
+{% endblock %}

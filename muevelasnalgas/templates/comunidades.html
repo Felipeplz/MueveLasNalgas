@@ -1,0 +1,164 @@
+{% extends 'base_con_barra.html' %}
+{% load static %}
+
+{% block comunidades %} active{% endblock %}
+
+{% block principal %}
+<div class="container">
+    <div class="row mt-3 fondopagina rounded">
+        <div class="col-md-8" id="noticias">
+            <div class="carousel slide text-white-outline" data-ride="carousel" id="noticiasCarousel">
+                <div class="carousel-inner py-3" role="listbox">
+                    {% for noticia in noticias %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{noticia.img.url}}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{noticia.titulo}}</h5>
+                            <p>{{noticia.texto}}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" style="background-color: lightgray;height: 300px;width: 300px;">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Aún no hay noticias</h5>
+                            <p>Manténte al día para conocer futuras noticias</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div>
+                    <a class="carousel-control-prev" href="#noticiasCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#noticiasCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+                <ol class="carousel-indicators">
+                    {% for noticia in noticias %}
+                    <li data-target="#noticiasCarousel" data-slide-to="{{ forloop.counter0 }}" {% if noticia == noticias|first %}class="active"{% endif %}></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        <div class="col-md-4 text-white overflow-auto pt-3 text-center" id="comunidades">
+            <h3 class="text-center">Comunidades</h3>
+            <hr>
+            <div class="col-12 mb-4 d-inline-flex">
+                <input class="form-control-sm form-control" type="search" placeholder="Buscar comunidad..">
+                <button class="btn btn-light btn-sm ml-2" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            {% for comunidad in comunidades %}
+            <div class="mb-4 comunidad-banner">
+                <a class="text-white" href="../../comunidades/{{comunidad.id}}"><h6>{{comunidad.nombre}}</h6></a>
+                <img class="rounded-circle border border-secondary shadow-lg" src="{{comunidad.deporte.img.url}}">
+                <a class="btn btn-dark btn-sm ml-2" type="button" href="../../comunidades/{{comunidad.id}}/miembro" data-nombre="{{comunidad.nombre}}">{% if user in comunidad.miembros.all %}Dejar comunidad{% else %}Unirse a comunidad{% endif %}</a>
+                <button class="btn btn-outline-success btn-sm ml-2 share-button" type="button">
+                    <i class="fas fa-share-square"></i>
+                </button>
+                {% if user in comunidad.favoritos.all %}
+                <a class="btn btn-warning btn-sm ml-2" type="button" href="../../comunidades/{{comunidad.id}}/favorito">
+                    <i class="fas fa-star"></i>
+                </a>
+                {% else %}
+                <a class="btn btn-outline-warning btn-sm ml-2" type="button" href="../../comunidades/{{comunidad.id}}/favorito">
+                    <i class="far fa-star"></i>
+                </a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="alert alert-warning w-100 text-center" role="alert">No hay comunidades aún</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="card-deck mt-3 text-center">
+            <div class="card">
+                <div class="text-center">
+                    <i class="fas fa-file-signature fa-7x mt-3"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Unete</h4>
+                    <p class="card-text">MueveLasNalgas cuenta con una gran cantidad de comunidades disponibles de diversos tipos de deportes, ya sea, juegos colectivos, individuales, etc. Unete a comunidades para ser parte de ellas y engrandece el deporte en el país.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="text-center">
+                    <i class="fas fa-handshake fa-7x mt-3"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Conoce</h4>
+                    <p class="card-text">Conoce información de los deportes de tú interés y descubre espacios deportivos dentro de tu zona o fuera de ella. Aumenta tu circulo adquiriendo nuevas amistades deportivas conociendo a otros usuarios con gustos en común.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="text-center">
+                    <i class="fas fa-bullhorn fa-7x mt-3"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Comparte</h4>
+                    <p class="card-text">Comparte publicaciones, experiencias, consejos, dietas, videos, etc, con otros usuarios de Mueve las Nalgas. MLN entrega herramientas para compartir de manera efectiva y así aumentar la conectividad deportiva del país.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row fondopagina rounded my-4">
+        <div class="w-100 pb-4">
+            <h5 class="text-center text-white my-3">Comunidades populares</h5>
+            <div class="card-deck mx-5">
+                {% for comunidad in top %}
+                <a class="card text-dark" href="../../comunidades/{{comunidad.id}}">
+                    <img src="{{comunidad.deporte.img.url}}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{comunidad.nombre}}</h5>
+                        <p class="card-text">Comunidad popular de <b>{{comunidad.deporte}}</b> con <b>{{comunidad.miembros.count}} miembro{% if comunidad.miembros.count != 1 %}s{% endif %}</b> en total.</p>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="alert alert-warning w-100 text-center" role="alert">No hay comunidades aún</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer-dark">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Creadores</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/waton_basti/">Bastian Galvez</a></li>
+                        <li><a href="https://www.instagram.com/alanrogers.drums.vx/">Alan Pavez</a></li>
+                        <li><a href="https://www.instagram.com/ascua.vida.mia/">Felipe Zavalla</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 item text">
+                    <h3>Proposito</h3>
+                    <p>Unete y se parte de las comunidades que entrega MLN, comparte otros usuarios y expande tu conocimiento sobre los de tú interes.</p>
+                </div>
+                <div class="col-md-6 item text">
+                    <h3>Proposito</h3>
+                    <p><br>MLN tiene como proposito mas importante el incentivar y aumentar la actividad fisica del país entregando herramientas para los usuarios que faciliten la realizacion de actividades deportivas, para mejorar la vida de estos intentando
+                        llevarlos hacia una vida activa y sana.<br><br></p>
+                </div>
+                <div class="col item social">
+                    <a href="#"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#"><i class="fab fa-twitter-square"></i></a>
+                    <a href="#"><i class="fab fa-instagram-square"></i></a>
+                </div>
+            </div>
+            <p class="copyright">Mueve Las Nalgas © 2021</p>
+        </div>
+    </footer>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/comunidades.js' %}"></script>
+{% endblock %}

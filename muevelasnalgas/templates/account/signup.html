@@ -1,0 +1,44 @@
+{% extends 'base_limpia.html' %}
+{% load static %}
+
+{% load i18n %}
+
+{% block principal %}
+    <div class="login-dark" style="background-image: url({% static 'img/fondo-base.jpg' %});background-size: cover;background-position: center center;background-repeat: no-repeat;">
+        <form class="border rounded border-dark shadow-lg pl-5 pr-5" id="signup_form" action="{% url 'account_signup' %}" method="post" style="background-color: rgb(29,37,45);margin: 0px;margin-bottom: 0px;margin-top: -25px;">
+            <h2 class="sr-only">Login Form</h2>
+            <div class="illustration">
+                <img src="{% static 'img/muevelasnalgas.png' %}" style="margin: 0px;margin-top: 1px;margin-left: 3px;height: 100%;max-height: 150px;width: auto;">
+            </div>
+            {% csrf_token %}
+            <label class="ml-4 mb-4">Formulario de registro</label>
+            <div class="form-group">
+                <input class="border rounded form-control" type="text" autofocus name="username" placeholder="Ingrese usuario" required id="id_username" minlength="3">
+            </div>
+            <div class="form-group">
+                <input class="border rounded form-control" type="email" name="email" placeholder="Ingrese email" autocomplete="email" required id="id_email">
+            </div>
+            <div class="form-group">
+                <input class="border rounded form-control" type="password" name="password1" placeholder="Ingrese contraseña" autocomplete="new-password" required id="id_password1">
+            </div>
+            <div class="form-group">
+                <input class="border rounded form-control mb-4" type="password" name="password2" placeholder="Confirme contraseña" required id="id_password2">
+            </div>
+            {% if form.subject.errors %}
+            <ol>
+            {% for error in form.subject.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+            </ol>
+            {% endif %}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <div class="form-group">
+                <button class="btn btn-success btn-block text-white border rounded p-2 mb-3" type="submit">Crear cuenta</button>
+                <label class="mr-1">Ya tengo cuenta</label>
+                <a class="text-info" href="{{ login_url }}">Iniciar sesion</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

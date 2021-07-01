@@ -1,0 +1,50 @@
+.fondopagina {
+  background-color: #1e2833;
+}
+
+#noticias img {
+  max-height: 50vh;;
+  object-fit: cover;
+}
+
+.text-white-outline h1,
+.text-white-outline h2,
+.text-white-outline h3,
+.text-white-outline h4,
+.text-white-outline h5,
+.text-white-outline h6,
+.text-white-outline p {
+	color: white;
+  text-shadow:
+    -1.5px -1.5px 0 black,  
+    1.5px -1.5px 0 black,
+    -1.5px 1.5px 0 black,
+    1.5px 1.5px 0 black,
+    0 0 10px black;
+}
+
+.text-white-outline:hover h1,
+.text-white-outline:hover h2,
+.text-white-outline:hover h3,
+.text-white-outline:hover h4,
+.text-white-outline:hover h5,
+.text-white-outline:hover h6,
+.text-white-outline:hover p {
+	color: white;
+  text-shadow:
+    -1.5px -1.5px 0 black,  
+    1.5px -1.5px 0 black,
+    -1.5px 1.5px 0 black,
+    1.5px 1.5px 0 black,
+    0 0 10px black;
+}
+
+.comunidad-banner img {
+  height: 4rem;
+  width: 4rem;
+  object-fit: cover;
+}
+
+.navbar {
+  z-index: 9999;
+}
