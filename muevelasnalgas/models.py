@@ -19,7 +19,8 @@ class Comunidad(models.Model):
 
 class TipoZona(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-    icono = models.CharField(max_length=1000)
+    icono = models.CharField(max_length=50)
+    variable = models.CharField(max_length=50)
 
     def __str__(self) -> str:
         return self.nombre

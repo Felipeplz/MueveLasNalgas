@@ -47,8 +47,8 @@
         <div class="col-md-4 text-white overflow-auto pt-3 text-center" id="comunidades">
             <h3 class="text-center">Comunidades</h3>
             <hr>
-            <form class="col-12 mb-4 d-inline-flex">
-                <input class="form-control-sm form-control" type="search" placeholder="Buscar comunidad..">
+            <form class="col-12 mb-4 d-inline-flex" action="../../comunidades">
+                <input class="form-control-sm form-control" type="search" name="buscar" id="buscar" placeholder="Buscar comunidad..">
                 <button class="btn btn-light btn-sm ml-2" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
@@ -72,7 +72,7 @@
                 {% endif %}
             </div>
             {% empty %}
-            <div class="alert alert-warning w-100 text-center" role="alert">No hay comunidades aún</div>
+            <div class="alert alert-warning w-100 text-center" role="alert">No hay comunidades</div>
             {% endfor %}
         </div>
     </div>
@@ -130,4 +130,9 @@
 
 {% block scripts %}
 <script src="{% static 'js/comunidades.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $("#buscar").val("{{filtro}}")
+    });
+</script>
 {% endblock %}

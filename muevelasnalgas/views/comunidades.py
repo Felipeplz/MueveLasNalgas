@@ -9,12 +9,17 @@ from muevelasnalgas.models import Comunidad, Noticia
 def comunidadesView(request):
     noticias = Noticia.objects.all().order_by('-id')[:5]
     comunidades = Comunidad.objects.all()
+    buscar = ""
     if "buscar" in request.GET:
-        comunidades = comunidades.filter(nombre__icontains=request.GET["buscar"]) | comunidades.filter(deporte__nombre__icontains=request.GET["buscar"])
+        buscar = request.GET["buscar"]
+        if buscar == "":
+            return HttpResponseRedirect("../../comunidades")
+        comunidades = comunidades.filter(nombre__icontains=buscar) | comunidades.filter(deporte__nombre__icontains=buscar)
     top = Comunidad.objects.annotate(popularidad=Count('miembros')+Count('favoritos')).order_by('-popularidad')[:3]
     return render(request, 'comunidades.html', context={'noticias':noticias,
                                                         'comunidades':comunidades,
-                                                        'top':top})
+                                                        'top':top,
+                                                        'filtro':buscar})
 
 @login_required
 def comunidadesMiembro(request, **kwargs):

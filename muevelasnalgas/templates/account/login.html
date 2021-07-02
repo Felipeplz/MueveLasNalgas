@@ -6,7 +6,7 @@
 
 {% block principal %}
     <div class="login-dark" style="background-image: url(&quot;{% static 'img/fondo-base.jpg' %}&quot;);background-size: cover;background-position: center center;background-repeat: no-repeat;">
-        <form class="border rounded border-dark shadow-lg" method="post" style="background-color: rgb(29,37,45);margin: 0px;margin-bottom: 0px;margin-top: -25px;" action="{% url 'account_login' %}">
+        <form class="border rounded border-dark shadow-lg login" method="post" style="background-color: rgb(29,37,45);margin: 0px;margin-bottom: 0px;margin-top: -25px;" action="{% url 'account_login' %}">
             {% csrf_token %}
             <h2 class="sr-only">Formulario de Login</h2>
             <div class="illustration"><img src="{% static 'img/muevelasnalgas.png' %}" style="margin: 0px;margin-top: 1px;margin-left: 3px;height: 100%;max-height: 150px;width: auto;"></div>

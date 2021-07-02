@@ -38,7 +38,7 @@ html, body {
         $("#buscar").val("{{filtro}}")
     });
     {% for tipo in tipos %}
-    var {{tipo.icono}} = new H.map.DomIcon('<svg style="width: 32px; height: 32px; overflow:visible !important"><use style="x: -50%; y: -50%" xlink:href="../..{% static 'svg/solid.svg' %}#{{tipo.icono}}"></use></svg>');
+    var {{tipo.variable}} = new H.map.DomIcon('<svg style="width: 32px; height: 32px; overflow:visible !important"><use style="x: -50%; y: -50%" xlink:href="../..{% static 'svg/solid.svg' %}#{{tipo.icono}}"></use></svg>');
     {% endfor %}
     var group = new H.map.Group();
 
@@ -55,7 +55,7 @@ html, body {
     '<div><h3>{{zona.nombre}}</h3></div>' +
     '<div>{{zona.descripcion}}</div>' +
     '<div><a href="../../deportivas/?buscar={{zona.tipo.nombre}}">{{zona.tipo}}</a></div>',
-    {icon: {{zona.tipo.icono}}});
+    {icon: {{zona.tipo.variable}}});
     {% endfor %}
 </script>
 {% endblock %}
