@@ -5,8 +5,15 @@
 {% block deportivas %} active{% endblock %}
 
 {% block principal %}
-<form class="col-12 col-md-3 offset-md-9 my-4 d-inline-flex" action="../../deportivas">
-    <input class="form-control-sm form-control" type="search" name="buscar" id="buscar" placeholder="Buscar zona deportiva..">
+<form class="col-12 col-md-3 offset-md-9 my-4 d-inline-flex" action="../../deportivas" id="form_buscar">
+    <input type="text" hidden id="lat" name="lat">
+    <input type="text" hidden id="lng" name="lng">
+    <div class="form-check text-nowrap mr-3">
+        <input class="form-check-input" type="checkbox" value="" id="checkCercanos" name="checkCercanos">
+        <label class="form-check-label" for="checkCercanos">Sólo zonas cercanas</label>
+      </div>
+    <input class="form-control-sm form-control" type="search" name="buscar" id="buscar" placeholder="Buscar zona deportiva.." autocomplete="off">
+    <div class="dropdown-menu w-100" id="listabuscar"></div>
     <button class="btn btn-light btn-sm ml-2" type="submit">
         <i class="fas fa-search"></i>
     </button>
@@ -23,6 +30,21 @@
 html, body {
     height:calc(100% - 84px);
 }
+.H_ib_content {
+    min-width: 40vw;
+}
+.H_ib_body {
+    margin-right: -20vw;
+}
+@media (min-width: 992px) {
+    .H_ib_content {
+        min-width: 20vw;
+    }
+    .H_ib_body {
+        margin-right: -10vw;
+    }
+}
+
 </style>
 {% endblock %}
 
@@ -35,7 +57,9 @@ html, body {
 <script src="{% static 'js/map.js' %}"></script>
 <script>
     $(document).ready(function() {
-        $("#buscar").val("{{filtro}}")
+        $("#checkCercanos").prop('checked', {{cercanos}});
+        $("#checkCercanos").val({{cercanos}});
+        $("#buscar").val("{{filtro}}");
     });
     {% for tipo in tipos %}
     var {{tipo.variable}} = new H.map.DomIcon('<svg style="width: 32px; height: 32px; overflow:visible !important"><use style="x: -50%; y: -50%" xlink:href="../..{% static 'svg/solid.svg' %}#{{tipo.icono}}"></use></svg>');
@@ -51,11 +75,18 @@ html, body {
         ui.addBubble(bubble);
     }, false);
     {% for zona in zonas %}
-    addMarkerToGroup(group, {lat: {{zona.lat|unlocalize}}, lng: {{zona.lng|unlocalize}}},
-    '<div><h3>{{zona.nombre}}</h3></div>' +
-    '<div>{{zona.descripcion}}</div>' +
-    '<div><a href="../../deportivas/?buscar={{zona.tipo.nombre}}">{{zona.tipo}}</a></div>',
-    {icon: {{zona.tipo.variable}}});
+    service.reverseGeocode({
+        at: '{{zona.lat|unlocalize}},{{zona.lng|unlocalize}},150'
+    }, (result) => {
+        result.items.forEach((item) => {
+            addMarkerToGroup(group, {lat: {{zona.lat|unlocalize}}, lng: {{zona.lng|unlocalize}}},
+            '<div><h3>{{zona.nombre}}</h3></div>' +
+            '<div>{{zona.descripcion}}</div>' +
+            '<div><a href="../../deportivas/?buscar={{zona.tipo.nombre}}">{{zona.tipo}}</a></div>' +
+            '<div>' + item.address.label + '</div>',
+            {icon: {{zona.tipo.variable}}});
+        });
+    }, alert);
     {% endfor %}
 </script>
 {% endblock %}

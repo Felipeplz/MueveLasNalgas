@@ -24,15 +24,16 @@
             <div class="form-group">
                 <input class="border rounded form-control mb-4" type="password" name="password2" placeholder="Confirme contraseña" required id="id_password2">
             </div>
-            {% if form.subject.errors %}
-            <ol>
-            {% for error in form.subject.errors %}
-                <li><strong>{{ error|escape }}</strong></li>
-            {% endfor %}
-            </ol>
-            {% endif %}
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            {% if form.errors.username|length > 0 or form.errors.email|length > 0 or form.errors.password1|length > 0 or form.errors.password2|length > 0 %}
+            <div class="alert alert-warning" role="alert">
+                {{form.errors.username}}
+                {{form.errors.email}}
+                {{form.errors.password1}}
+                {{form.errors.password2}}
+            </div>
             {% endif %}
             <div class="form-group">
                 <button class="btn btn-success btn-block text-white border rounded p-2 mb-3" type="submit">Crear cuenta</button>

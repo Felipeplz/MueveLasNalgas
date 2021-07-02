@@ -30,6 +30,7 @@ urlpatterns = [
     path('comunidades/<slug:id>/miembro', views.comunidadesMiembro),
     path('comunidades/<slug:id>/favorito', views.comunidadesFavorito),
     path('deportivas/', views.mapaView),
+    path('deportivas/buscar', views.getZonas),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
